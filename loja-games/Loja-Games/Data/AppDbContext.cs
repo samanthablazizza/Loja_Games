@@ -14,21 +14,22 @@ namespace Loja_Games.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Produto>().ToTable("tb_produtos");
-
             modelBuilder.Entity<Categoria>().ToTable("tb_categorias");
+            modelBuilder.Entity<User>().ToTable("tb_usuarios");
 
+            // Relacionamento Produto -> Categoria
             _ = modelBuilder.Entity<Produto>()
-          .HasOne(_ => _.Categoria)   // lado um da relação: Categoria classifica muitos produtos
-          .WithMany(p => p.Produto)   //lado muitos da relação: um Categoria pode ter muitos Produtos
-          .HasForeignKey("CategoriaId")   // Chave Estrangeira na tabela tb_produtos.
-          .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(_ => _.Categoria)   // lado um da relação: Categoria classifica muitos produtos
+                .WithMany(p => p.Produto)   //lado muitos da relação: uma Categoria pode ter muitos Produtos
+                .HasForeignKey("CategoriaId")   // Chave Estrangeira na tabela tb_produtos.
+                .OnDelete(DeleteBehavior.Cascade);
         }
-       public DbSet<Produto> Produtos { get; set; } = null!;
+        public DbSet<Produto> Produtos { get; set; } = null!;
+        public DbSet<Categoria> Categorias { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
 
-       public DbSet<Categoria> Categorias { get; set; } = null!;
 
-
-     }
+    }
 
         
 }

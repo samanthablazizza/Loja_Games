@@ -34,5 +34,6 @@ namespace Loja_Games.Model
         [StringLength(1000)]
         public string Foto { get; set; } = string.Empty;
         public virtual Categoria? Categoria { get; set; }
+       
     }
 }
