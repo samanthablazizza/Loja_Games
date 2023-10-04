@@ -1,7 +1,6 @@
 ﻿using Loja_Games.Data;
 using Loja_Games.Model;
 using Microsoft.EntityFrameworkCore;
-using static Loja_Games.Service.Implements.ProdutoService;
 
 namespace Loja_Games.Service.Implements
 {
@@ -34,20 +33,20 @@ namespace Loja_Games.Service.Implements
                 return null;
             }
         }
-        public async Task<IEnumerable<Produto>> GetByConsole(string console)
+        public async Task<IEnumerable<Produto>> GetByNome(string nome)
         {
             var Produto = await _context.Produtos
                                  .Include(p => p.Categoria)
-                                 .Where(p => p.Nome.Contains(console))
+                                 .Where(p => p.Nome.Contains(nome))
                                  .ToListAsync();
             return Produto;
         }
         public async Task<Produto?> Create(Produto produto)
         {
-            if (produto is not null)
+            if (produto.Categoria is not null)
             {
                 var BuscaCategoria = await _context.Categorias.FindAsync(produto.Categoria.Id);
-                if (BuscaCategoria is not null)
+                if (BuscaCategoria is null)
                     return null;
             }
             produto.Categoria = produto.Categoria is not null ? _context.Categorias.FirstOrDefault(c => c.Id == produto.Categoria.Id) : null;
@@ -59,7 +58,7 @@ namespace Loja_Games.Service.Implements
         }
         public async Task<Produto?> Update(Produto produto)
         {
-            var ProdutoUpdate = await _context.Produtos.FindAsync(produto);
+            var ProdutoUpdate = await _context.Produtos.FindAsync(produto.Id);
 
             if (ProdutoUpdate is null)
             {
@@ -70,11 +69,11 @@ namespace Loja_Games.Service.Implements
             {
                 var BuscaCategoria = await _context.Categorias.FindAsync(produto.Categoria.Id);
 
-                if (BuscaCategoria is not null)
+                if (BuscaCategoria is null)
                     return null;
-            }
 
-            produto.Categoria = produto.Categoria is not null ? _context.Categorias.FirstOrDefault(t => t.Id == produto.Categoria.Id) : null;
+                produto.Categoria = BuscaCategoria;
+            }
 
             _context.Entry(ProdutoUpdate).State = EntityState.Detached;
             _context.Entry(produto).State = EntityState.Modified;

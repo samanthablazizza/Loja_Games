@@ -1,13 +1,11 @@
 ﻿using FluentValidation;
 using Loja_Games.Model;
 using Loja_Games.Service;
-using Loja_Games.Service.Implements;
-using Loja_Games.Validator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Loja_Games.Controller
 {
-    [Route("~/categoria")]
+    [Route("~/categorias")]
     [ApiController]
     public class CategoriaController : ControllerBase
     {
@@ -35,7 +33,7 @@ namespace Loja_Games.Controller
 
             if (Resposta is null)
             {
-                return NotFound();
+                return NotFound("Categoria não encontrada!");
             }
             return Ok(Resposta);
         }
@@ -56,7 +54,7 @@ namespace Loja_Games.Controller
                 return StatusCode(StatusCodes.Status400BadRequest, validarCategoria);
             }
 
-            await _categoriaService.Create(categoria);
+            var Resposta = await _categoriaService.Create(categoria); ;
 
             return CreatedAtAction(nameof(GetById), new { id = categoria.Id }, categoria);
         }
@@ -91,7 +89,7 @@ namespace Loja_Games.Controller
 
             if (BuscaCategoria is null)
             {
-                return NotFound("Categoria não foi encontrada!");
+                return NotFound("Categoria não encontrada!");
             }
 
             await _categoriaService.Delete(BuscaCategoria);

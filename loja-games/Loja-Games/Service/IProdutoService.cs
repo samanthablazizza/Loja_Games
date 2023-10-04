@@ -8,12 +8,12 @@ namespace Loja_Games.Service
 
         Task<Produto?> GetById(long id);
 
-        Task<IEnumerable<Produto>> GetByConsole(string console);
+        Task<IEnumerable<Produto>> GetByNome(string nome);
 
-        Task<Produto?> Create(Produto Produto);
+        Task<Produto?> Create(Produto produto);
 
-        Task<Produto?> Update(Produto Produto);
+        Task<Produto?> Update(Produto produto);
 
-        Task Delete(Produto Produto);
+        Task Delete(Produto produto);
     }
 }

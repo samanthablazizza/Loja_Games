@@ -12,7 +12,7 @@ namespace Loja_Games.Model
         public long Id { get; set; }
 
         [Column(TypeName = "varchar")]
-        [StringLength(100)]
+        [StringLength(255)]
         public string Nome { get; set; } = string.Empty;
 
         [Column(TypeName = "varchar")]
@@ -20,7 +20,7 @@ namespace Loja_Games.Model
         public string Descricao { get; set; } = string.Empty;
 
         [Column(TypeName = "varchar")]
-        [StringLength(100)]
+        [StringLength(255)]
         public string Console { get; set; } = string.Empty;
 
         [Column(TypeName = "date")]

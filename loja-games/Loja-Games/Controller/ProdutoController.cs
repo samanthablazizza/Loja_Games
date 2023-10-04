@@ -35,11 +35,10 @@ namespace Loja_Games.Controller
 
             return Ok(Resposta);
         }
-
-        [HttpGet("console/{console}")]
-        public async Task<ActionResult> GetByconsole(string console)
+        [HttpGet("nome/{nome}")]
+        public async Task<ActionResult> GetByNome(string nome)
         {
-            return Ok(await _produtoService.GetByConsole(console));
+            return Ok(await _produtoService.GetByNome(nome));
         }
 
         [HttpPost]
@@ -52,12 +51,11 @@ namespace Loja_Games.Controller
                 return StatusCode(StatusCodes.Status400BadRequest, validarProduto);
             }
 
-            await _produtoService.Create(produto);
             var Resposta = await _produtoService.Create(produto);
 
             if (Resposta is null)
             {
-                return BadRequest("Tipo não encontrado!");
+                return BadRequest("Categoria não encontrada!");
             }
 
             return CreatedAtAction(nameof(GetById), new { id = produto.Id }, produto);
@@ -67,7 +65,7 @@ namespace Loja_Games.Controller
         {
             if (produto.Id == 0)
             {
-                return BadRequest("Id da produto é inválido");
+                return BadRequest("Id do Produto é inválido");
             }
 
             var validarproduto = await _produtoValidator.ValidateAsync(produto);
@@ -81,7 +79,7 @@ namespace Loja_Games.Controller
 
             if (Resposta is null)
             {
-                return NotFound("Produto e/ou Tipo não encontrado!");
+                return NotFound("Produto e/ou Categoria não encontrados!");
             }
             return Ok(Resposta);
         }
@@ -92,7 +90,7 @@ namespace Loja_Games.Controller
 
             if (Buscaproduto is null)
             {
-                return NotFound("Produto não foi encontrado!");
+                return NotFound("Produto não encontrado!");
             }
 
             await _produtoService.Delete(Buscaproduto);
